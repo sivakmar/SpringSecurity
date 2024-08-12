@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -46,6 +47,12 @@ public class EmployeeController {
     public ResponseEntity<ApiSuccessResponse> updateExistingEmployee(@PathVariable("employeeId")int id){
         employeeService.deleteById(id);
         ApiSuccessResponse response=new ApiSuccessResponse(true,"[]","Deleted Employee Of Id: "+id);
+        return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+    @GetMapping("/employees/{employeeId}")
+    public ResponseEntity<ApiSuccessResponse> getSpecificEmployee(@PathVariable("employeeId")int id){
+        Optional<Employee> emp=employeeService.getById(id);
+        ApiSuccessResponse response=new ApiSuccessResponse(true,"[]",emp);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 }
